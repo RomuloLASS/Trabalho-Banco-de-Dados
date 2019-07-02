@@ -13,7 +13,10 @@
         <a class="nav-link" href="produto.php">Produtos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="cadastroCliente.php">Cadastro Cliente</a>
+        <a class="nav-link" href="cadastroCliente.php">Cadatro Cliente</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="visualizarCliente.php">Visualizar Cliente</a>
       </li>
     </ul>
   </div>
