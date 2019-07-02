@@ -28,41 +28,17 @@ include "header.php";
             var saida = mask.substring(1, 0);
             var texto = mask.substring(i);
             console.log(i, texto, texto.substring(0, 1), saida);
-            //if (texto.substring(0, 1) != saida) {
-              //  console.log(texto.substring(0, 1));
-                //t.value += texto.substring(0, 1);
-            //}
+            if (texto.substring(0, 1) != saida) {
+                console.log(texto.substring(0, 1));
+                t.value += texto.substring(0, 1);
+            }
         }
     </script>
     <!-- Fim do script -->
-    <fieldset>
-        <legend>Tipo de Usuário:</legend>
-        <?php
-            if(!isset($_SESSION['usuarioNiveisAcessoId'])){/* Verifica se a variavel usuarioNiveisAcessoId não existe */
-                $_SESSION['usuarioNiveisAcessoId'] = 1;
-            }
-            if ( $_SESSION['usuarioNiveisAcessoId'] == 0) {
-                echo "<ul class='nav'>" ."<li class='nav-item'>"."<a class='nav-link' href='cadastroCliente.php'>Cliente</a></li>"."<li class='nav-item'>"."<a class='nav-link' href='cadastroFuncionario.php'>Funcionario</a></li></ul>";
-            }
-            else{
-                echo "<ul class='nav'>" ."<li class='nav-item'>"."<a class='nav-link' href='visualizarUsuario.php'>Cliente</a></li>"."<li class='nav-item'>"."<a class='nav-link' href='login.php'>Funcionario</a></li></ul>";
-            }
-        ?>
-    </fieldset>
     <!-- Formulário de Cadastro de Usuário -->
     <form action="cadastroFuncionario.php" method="POST" target="_self">
         <fieldset>
             <legend>Informações Pessoais:</legend>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="inputEmail4">Email</label>
-                    <input type="name" name="email" class="form-control" id="inputEmail4" placeholder="Email">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="inputPassword4">Senha</label>
-                    <input type="password" name="senha" class="form-control" id="inputPassword4" placeholder="Senha">
-                </div>
-            </div>
             <div class="form-row">
                 <div class="form-group col-md-8">
                     <label for="inputEmail4">Nome</label>
@@ -70,86 +46,26 @@ include "header.php";
                 </div>
                 <div class="form-group col-md-2">
                     <label for="inputPassword4">Telefone</label>
-                    <input type="text" name="telefone" class="form-control" id="inputTelefone4" placeholder="(11)1111-1111" onkeypress="mascara(this, '(##)####-####')" maxlength="12">
+                    <input type="text" name="telefone" class="form-control" id="inputTelefone4" placeholder="(11)1111-1111" onkeypress="mascara(this, '## ####-####')" maxlength="12">
                 </div>
                 <div class="form-group col-md-2">
                     <label for="inputPassword4">CPF</label>
                     <input type="text" name="cpf" class="form-control" id="inputCPF4" placeholder="111.111.111-11" onkeypress="mascara(this, '###.###.###-##')" maxlength="14">
                 </div>
-            </div>
-        </fieldset>
-        <fieldset>
-            <legend>Informações Residenciais:</legend>
-            <div class="form-group">
-                <label for="inputAddress">Endereço</label>
-                <input type="text" name="endereco" class="form-control" id="inputAddress" placeholder="Av. Rio Branco">
-            </div>
-            <div class="form-group">
-                <label for="inputAddress2">Complemento</label>
-                <input type="text" name="complemento" class="form-control" id="inputAddress2" placeholder="Apartmento, estudio, or andar">
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="inputCity">Cidade</label>
-                    <input type="text" name="cidade" class="form-control" id="inputCity" placeholder="Cidade">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="inputState">Estado</label>
-                    <select id="inputState" name="estado" class="form-control">
-                        <option selected>Escolha...</option>
-                        <option>AC</option>
-                        <option>AL</option>
-                        <option>AP</option>
-                        <option>AM</option>
-                        <option>BA</option>
-                        <option>CE</option>
-                        <option>DF</option>
-                        <option>ES</option>
-                        <option>GO</option>
-                        <option>MA</option>
-                        <option>MT</option>
-                        <option>MS</option>
-                        <option>MG</option>
-                        <option>PA</option>
-                        <option>PB</option>
-                        <option>PR</option>
-                        <option>PE</option>
-                        <option>PI</option>
-                        <option>RJ</option>
-                        <option>RN</option>
-                        <option>RS</option>
-                        <option>RO</option>
-                        <option>RR</option>
-                        <option>SC</option>
-                        <option>SP</option>
-                        <option>SE</option>
-                        <option>TO</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="inputZip">CEP</label>
-                    <input type="text" name="cep" class="form-control" id="cep" onkeypress="mascara(this, '##.###-###')" placeholder="11.111-111" maxlength="10">
+                <div class="form-group col-md-8">
+                    <label for="inputAddress">Endereço</label>
+                    <input type="text" name="endereco" class="form-control" id="inputAddress" placeholder="Av. Rio Branco">
                 </div>
             </div>
         </fieldset>
-
         <fieldset>
             <legend>Dados do Funcionario:</legend>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="inputCodigo">Codigo</label>
-                    <input type="text" name="codigoFunc" class="form-control" id="codigoFunc" placeholder="xxxx.xx.xx.xx" maxlenght="20">
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="inputSalario">Salario</label>
-                    <input type="number" name="salario" class="form-control" id="salario">
-                </div>
                 <div class="form-group col-md-5">
                     <label for="inputCargo">Cargo</label>
                     <select id="inputCargo" name="cargo" class="form-control">
                         <option selected>Escolha...</option>
-                        <option>Vendedor</option>
-                        <option>Administrador</option>
+                        <option value ="1">Vendedor</option>
+                        <option value ="0">Gerente</option>
                     </select>       
                 </div>
             </div>
@@ -161,31 +77,25 @@ include "header.php";
     /* Ligação com Banco de Dados */
     if (isset($_POST["submit"])) {
         include_once("conexao.php"); /* Estabelece a conexão */
-        $email = $_POST['email'];
-        $senha = $_POST['senha'];
         $nome = $_POST['nome'];
         $telefone = $_POST['telefone'];
         $cpf = $_POST['cpf'];
         $endereco = $_POST['endereco'];
-        $complemento = $_POST['complemento'];
-        $cidade = $_POST['cidade'];
-        $estado = $_POST['estado'];
-        $cep = $_POST['cep'];
-        $codigoFunc = $_POST['codigoFunc'];
-        $salario = $_POST['salario'];
-        $cargo = $_POST['cargo'];
-        $tipo = 2;
+        $tipo = $_POST['cargo'];
 
-        if($cargo == "Administrador"){
-            $tipo = 0;
+        $sqlFuncionario = "insert into funcionarios (nome,cpf,telefone,endereco,tipo) values ('$nome','$cpf','$telefone','$endereco','$tipo')";
+        $salvarFuncionario = mysqli_query($conexao, $sqlFuncionario); /* Escreve os dados no banco */
+
+        if($tipo == 0){
+            $sqlCargo = "insert into gerente (codigo_func) values ('$cpf')";
+        } else {
+            $sqlCargo = "insert into vendedor (codigo_func) values ('$cpf')";
         }
+        $salvarCargo = mysqli_query($conexao, $sqlCargo);
 
-        $sql = "insert into lojaze.usuarios (email,senha,nome,telefone,cpf,endereco,complemento,cidade,estado,cep,tipo) values ('$email','$senha','$nome','$telefone','$cpf','$endereco','$complemento','$cidade','$estado','$cep','$tipo')";
-        $salvar = mysqli_query($conexao, $sql); /* Escreve os dados no banco */
-
-        if ($salvar) {
+        if ($salvarFuncionario && $salvarCargo) {
                 ?>
-                <div class="alert alert-success">Usuário cadastrado com sucesso!</div>
+                <div class="alert alert-success">Funcionario cadastrado com sucesso!</div>
                 
             <?php
         } else {
@@ -194,11 +104,6 @@ include "header.php";
                 <div class="alert alert-warning">Falha ao cadastrar funcioário!</div>
             <?php
         }
-
-
-    $sql2 = "insert into lojaze.funcionarios (id,cpf,salario,cargo) values ('$codigoFunc','$cpf','$salario','$cargo')";
-    $salvar2 = mysqli_query($conexao, $sql2);/*Escreve os dandos no banco */
-    mysqli_close($conexao);
 }
 
 ?>

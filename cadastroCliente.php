@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="publico/css/bootstrap.min.css" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="publico/css/estilo.css">
 </head>
 
@@ -28,114 +31,34 @@ include "header.php";
             var saida = mask.substring(1, 0);
             var texto = mask.substring(i);
             console.log(i, texto, texto.substring(0, 1), saida);
-            //if (texto.substring(0, 1) != saida) {
-              //  console.log(texto.substring(0, 1));
-                //t.value += texto.substring(0, 1);
-            //}
+            if (texto.substring(0, 1) != saida) {
+                console.log(texto.substring(0, 1));
+                t.value += texto.substring(0, 1);
+            }
         }
     </script>
     <!-- Fim do script -->
-    <fieldset>
-    <!-- Escolha Cliente ou Funcionario -->
-        <legend>Tipo de Usuário:</legend>
-        <?php
-            if(!isset($_SESSION['usuarioNiveisAcessoId'])){/* Verifica se a variavel usuarioNiveisAcessoId não existe */
-                $_SESSION['usuarioNiveisAcessoId'] = 1;
-            }
-            if ( $_SESSION['usuarioNiveisAcessoId'] == 0) {
-                echo "<ul class='nav'>" ."<li class='nav-item'>"."<a class='nav-link' href='cadastroCliente.php'>Cliente</a></li>"."<li class='nav-item'>"."<a class='nav-link' href='cadastroFuncionario.php'>Funcionario</a></li></ul>";
-            }
-            else{
-                echo "<ul class='nav'>" ."<li class='nav-item'>"."<a class='nav-link' href='visualizarUsuario.php'>Cliente</a></li>"."<li class='nav-item'>"."<a class='nav-link' href='login.php'>Funcionario</a></li></ul>";
-            }
-        ?>
-    </fieldset>
-    <!-- Fim da escolha Cliente ou Funcionario -->
-    <!-- Formulário de Cadastro de Usuário -->
+    <!-- Formulário de Cadastro de Cliente -->
     <form action="cadastroCliente.php" method="POST" target="_self">
         <fieldset>
-            <legend>Informações Pessoais:</legend>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="inputEmail4">Email</label>
-                    <input type="name" name="email" class="form-control" id="inputEmail4" placeholder="Email">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="inputPassword4">Senha</label>
-                    <input type="password" name="senha" class="form-control" id="inputPassword4" placeholder="Senha">
-                </div>
-            </div>
+            <legend>Informações:</legend>
             <div class="form-row">
                 <div class="form-group col-md-8">
-                    <label for="inputEmail4">Nome</label>
+                    <label for="inputName">Nome</label>
                     <input type="name" name="nome" class="form-control" id="inputNome4" placeholder="Nome">
                 </div>
                 <div class="form-group col-md-2">
-                    <label for="inputPassword4">Telefone</label>
-                    <input type="text" name="telefone" class="form-control" id="inputTelefone4" placeholder="(11)1111-1111" onkeypress="mascara(this, '(##)####-####')" maxlength="12">
+                    <label for="inputTelephone">Telefone</label>
+                    <input type="text" name="telefone" class="form-control" id="inputTelefone4" placeholder="(11)1111-1111" onkeypress="mascara(this, '## ####-####')" maxlength="12">
                 </div>
                 <div class="form-group col-md-2">
-                    <label for="inputPassword4">CPF</label>
+                    <label for="inputCPF">CPF</label>
                     <input type="text" name="cpf" class="form-control" id="inputCPF4" placeholder="111.111.111-11" onkeypress="mascara(this, '###.###.###-##')" maxlength="14">
                 </div>
-                <div class="form-group col-md-2">
-                    <label for="inputPassword4">CNPJ</label>
-                    <input type="text" name="cnpj" class="form-control" id="inputCNPJ4" placeholder="11.111.111/1111-11" onkeypress="mascara(this, '##.###.###/####-##')" maxlength="14">
-                </div>
-            </div>
-        </fieldset>
-        <fieldset>
-            <legend>Informações Residenciais:</legend>
-            <div class="form-group">
+                <div class="form-group col-md-8">
                 <label for="inputAddress">Endereço</label>
                 <input type="text" name="endereco" class="form-control" id="inputAddress" placeholder="Av. Rio Branco">
             </div>
-            <div class="form-group">
-                <label for="inputAddress2">Complemento</label>
-                <input type="text" name="complemento" class="form-control" id="inputAddress2" placeholder="Apartmento, estudio, or andar">
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="inputCity">Cidade</label>
-                    <input type="text" name="cidade" class="form-control" id="inputCity" placeholder="Cidade">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="inputState">Estado</label>
-                    <select id="inputState" name="estado" class="form-control">
-                        <option selected>Escolha...</option>
-                        <option>AC</option>
-                        <option>AL</option>
-                        <option>AP</option>
-                        <option>AM</option>
-                        <option>BA</option>
-                        <option>CE</option>
-                        <option>DF</option>
-                        <option>ES</option>
-                        <option>GO</option>
-                        <option>MA</option>
-                        <option>MT</option>
-                        <option>MS</option>
-                        <option>MG</option>
-                        <option>PA</option>
-                        <option>PB</option>
-                        <option>PR</option>
-                        <option>PE</option>
-                        <option>PI</option>
-                        <option>RJ</option>
-                        <option>RN</option>
-                        <option>RS</option>
-                        <option>RO</option>
-                        <option>RR</option>
-                        <option>SC</option>
-                        <option>SP</option>
-                        <option>SE</option>
-                        <option>TO</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="inputZip">CEP</label>
-                    <input type="text" name="cep" class="form-control" id="cep" onkeypress="mascara(this, '##.###-###')" placeholder="11.111-111" maxlength="10">
-                </div>
             </div>
         </fieldset>
         <button type="submit" class="btn btn-primary" value="Submit" name="submit">Confirmar</button>
@@ -145,24 +68,15 @@ include "header.php";
     /* Ligação com Banco de Dados */
     if (isset($_POST["submit"])) {
         include_once("conexao.php"); /* Estabelece a conexão */
-        $email = $_POST['email'];
-        $senha = $_POST['senha'];
         $nome = $_POST['nome'];
         $telefone = $_POST['telefone'];
         $cpf = $_POST['cpf'];
-        $cnpj = $_POST['cnpj'];
         $endereco = $_POST['endereco'];
-        $complemento = $_POST['complemento'];
-        $cidade = $_POST['cidade'];
-        $estado = $_POST['estado'];
-        $cep = $_POST['cep'];
-        $tipo = 1;
-        $sql = "insert into usuarios (email,senha,nome,telefone,cpf,endereco,complemento,cidade,estado,cep,tipo) values ('$email','$senha','$nome','$telefone','$cpf','$endereco','$complemento','$cidade','$estado','$cep','$tipo')";
-        $salvar = mysqli_query($conexao, $sql); /* Escreve os dados da tabela Usuário no banco */
 
-        $sql3 = "insert into clientes (email,senha,nome,telefone,cpf,cnpj,endereco,complemento,cidade,estado,cep,tipo) values ('$email','$senha','$nome','$telefone','$cpf','$cnpj','$endereco','$complemento','$cidade','$estado','$cep','$tipo')";
-        $salvar3 = mysqli_query($conexao, $sql3);/*Escreve os dandos da tabela cliente no banco */
-        if ($salvar && $salvar3) {
+        $sql = "insert into cliente (nome,cpf,telefone,endereco) values ('$nome','$cpf','$telefone','$endereco')";
+
+        $salvar = mysqli_query($conexao, $sql);/*Escreve os dandos da tabela cliente no banco */
+        if ($salvar) {
             ?>
             <div class="alert alert-success">Cliente cadastrado com sucesso!</div>
         <?php

@@ -19,66 +19,84 @@ include "header.php";
 
 <body>
     <script language="JavaScript">
-        function deletarUsuario(cpf, id) {
-            fetch(`./deletarUsuario.php?cpf=${cpf}`)
+        function deletar(cpf) {
+            fetch(`./deletarFuncionario.php?cpf=${cpf}`)
                 .then(window.location.reload())
                 .catch(console.error);
         }
     </script>
+<!-- Tabela de Vendedores -->
     <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead class="thead-light">
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Cpf</th>
-                <th>Telefone</th>
-                <th>Endereço</th>
-                <th>Complemento</th>
-                <th>Cidade</th>
-                <th>Estado</th>
-                <th>Cep</th>
-                <th>Id</th>
-                <th>Salario</th>
-                <th>Cargo</th>
-            </thead>
-            <tbody>
-                <?php
-                include_once("conexao.php"); /* Estabelece a conexão */
-                $sql = "SELECT * FROM usuarios";
-                $resultado = mysqli_query($conexao, $sql);
-                if (mysqli_num_rows($resultado) > 0) {
-                    /* Dados de saída de cada linha */
-                    while ($linha = mysqli_fetch_assoc($resultado)) {
-                        if($linha["tipo"] == 2 || $linha["tipo"] == 0){ 
-                            echo "<tr><td>" . $linha["nome"] .
-                                "</td><td>" . $linha["email"] .
-                                "</td><td>" . $linha["cpf"] .
-                                "</td><td>" . $linha["telefone"] .
-                                "</td><td>" . $linha["endereco"] .
-                                "</td><td>" . $linha["complemento"] .
-                                "</td><td>" . $linha["cidade"] .
-                                "</td><td>" . $linha["estado"] .
-                                "</td><td>" . $linha["cep"] .
-                                "</td>" ;
-
-                            $sql2 = "SELECT * FROM funcionarios WHERE (cpf=\"" . $linha['cpf'] . "\")" ;
-                            $resultado2 = mysqli_query($conexao, $sql2);
-                            $linha2 = mysqli_fetch_assoc($resultado2);
-                            echo "<td>". $linha2["id"] ."</td><td>". $linha2["salario"] ."</td><td>". $linha2["cargo"]."</td>";
-
-                            echo "<td><a href=\"./editarFuncionario.php?cpf=$linha[cpf]&id=$linha2[id]\"><i class=\"fas fa-pencil-alt\"></i></a>" .
-                            "<a href=\"javascript:deletarUsuario('$linha[cpf]')\"><i class=\"fas fa-trash\"></i></a>" .
-                            "</td></tr>";
+        <fieldset>
+        <legend>Vendedores:</legend>
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <th>Nome</th>
+                    <th>Cpf</th>
+                    <th>Telefone</th>
+                    <th>Endereço</th>
+                </thead>
+                <tbody>
+                    <?php
+                    include_once("conexao.php"); /* Estabelece a conexão */
+                    $sqlFuncioanario = "SELECT * FROM funcionarios f INNER JOIN vendedor v on (f.cpf=v.codigo_func)";
+                    $resultado = mysqli_query($conexao, $sqlFuncioanario);
+                    if (mysqli_num_rows($resultado) > 0) {
+                        /* Dados de saída de cada linha */
+                        while ($linha = mysqli_fetch_assoc($resultado)) {
+                                echo "<tr><td>" . $linha["nome"] .
+                                    "</td><td>" . $linha["cpf"] .
+                                    "</td><td>" . $linha["telefone"] .
+                                    "</td><td>" . $linha["endereco"] .
+                                    "</td>" ;
+                                echo "<td><a href=\"./editarFuncionario.php?cpf=$linha[cpf]\"><i class=\"fas fa-pencil-alt\"></i></a>" .
+                                "<a href=\"javascript:deletar('$linha[cpf]')\"><i class=\"fas fa-trash\"></i></a>" .
+                                "</td></tr>";
+                            }
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+    <!-- Fim da tabela de Vendedores -->
+    <!-- Tabela de Gerente -->
+    <div class="table-responsive">
+        <fieldset>
+        <legend>Gerente: </legend>
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <th>Nome</th>
+                    <th>Cpf</th>
+                    <th>Telefone</th>
+                    <th>Endereço</th>
+                </thead>
+                <tbody>
+                    <?php
+                    $sqlFuncioanario = "SELECT * FROM funcionarios f INNER JOIN gerente g on (cpf=codigo_func)";
+                    $resultado = mysqli_query($conexao, $sqlFuncioanario);
+                    if (mysqli_num_rows($resultado) > 0) {
+                        /* Dados de saída de cada linha */
+                        while ($linha = mysqli_fetch_assoc($resultado)) {
+                            if($linha["tipo"] == 2 || $linha["tipo"] == 0){ 
+                                echo "<tr><td>" . $linha["nome"] .
+                                    "</td><td>" . $linha["cpf"] .
+                                    "</td><td>" . $linha["telefone"] .
+                                    "</td><td>" . $linha["endereco"] .
+                                    "</td>" ;
+                                echo "<td><a href=\"./editarFuncionario.php?cpf=$linha[cpf]\"><i class=\"fas fa-pencil-alt\"></i></a>" .
+                                "<a href=\"javascript:deletar('$linha[cpf]')\"><i class=\"fas fa-trash\"></i></a>" .
+                                "</td></tr>";
+                            }
                         }
                     }
-                }
-                mysqli_close($conexao);
-                ?>
-            </tbody>
-
-        </table>
-
+                    mysqli_close($conexao);
+                    ?>
+                </tbody>
+            </table>
+        </fieldset>
     </div>
+    <!-- Fim da tabela de Gerente -->
 </body>
 
 <?php

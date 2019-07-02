@@ -19,48 +19,37 @@ include "header.php";
 
 <body>
     <script language="JavaScript">
-        function deletarUsuario(cpf) {
-            fetch(`./deletarUsuario.php?cpf=${cpf}`)
+        function deletar(cpf) {
+            fetch(`./deletarCliente.php?cpf=${cpf}`)
                 .then(window.location.reload())
                 .catch(console.error);
+                    window.location.reload()
         }
     </script>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="thead-light">
                 <th>Nome</th>
-                <th>Email</th>
                 <th>Cpf</th>
-                <th>Cnpj</th>
                 <th>Telefone</th>
                 <th>Endereço</th>
-                <th>Complemento</th>
-                <th>Cidade</th>
-                <th>Estado</th>
-                <th>Cep</th>
                 <th></th>
             </thead>
             <tbody>
                 <?php
                 include_once("conexao.php"); /* Estabelece a conexão */
-                $sql = "SELECT * FROM clientes";
+                $sql = "SELECT * FROM cliente";
                 $resultado = mysqli_query($conexao, $sql);
                 if (mysqli_num_rows($resultado) > 0) {
                     /* Dados de saída de cada linha */
                     while ($linha = mysqli_fetch_assoc($resultado)) {
                         echo "<tr><td>" . $linha["nome"] .
-                            "</td><td>" . $linha["email"] .
                             "</td><td>" . $linha["cpf"] .
-                            "</td><td>" . $linha["cnpj"] .
                             "</td><td>" . $linha["telefone"] .
                             "</td><td>" . $linha["endereco"] .
-                            "</td><td>" . $linha["complemento"] .
-                            "</td><td>" . $linha["cidade"] .
-                            "</td><td>" . $linha["estado"] .
-                            "</td><td>" . $linha["cep"] .
                             "</td><td>" .
-                           "<a href=\"./editarCliente.php?cpf=$linha[cpf]\"><i class=\"fas fa-pencil-alt\"></i></a>" .
-                            "<a href=\"javascript:deletarUsuario('$linha[cpf]')\"><i class=\"fas fa-trash\"></i></a>" .
+                           "<a href=\"./editarCliente.php?cpf=$linha[cpf]\"><i class=\"fas fa-pencil-alt\"></i></a> &nbsp" .
+                            "<a href=\"javascript:deletar('$linha[cpf]')\"><i class=\"fas fa-trash\"></i></a>" .
                             "</td></tr>";
                     }
                 }

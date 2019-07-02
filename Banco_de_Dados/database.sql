@@ -3,51 +3,41 @@ CREATE TABLE bd.funcionarios (
     cpf varchar(14) NOT NULL,
     telefone varchar(20) NOT NULL,
     endereco varchar(50) NOT NULL,
-    tipo int NOT NULL,
-    PRIMARY KEY (cpf)
+    tipo int NOT NULL
 );
 
 CREATE TABLE bd.gerente(
-    codigo_func varchar(14) NOT NULL,
-    FOREIGN KEY (codigo_func) REFERENCES bd.funcionarios (cpf),
-    PRIMARY KEY (codigo_func)
+    codigo_func varchar(14) NOT NULL
 );
 
 CREATE TABLE bd.vendedor(
-    codigo_func varchar(14) NOT NULL,
-    FOREIGN KEY (codigo_func) REFERENCES bd.funcionarios (cpf),
-    PRIMARY KEY (codigo_func)
+    codigo_func varchar(14) NOT NULL
 );
 
 CREATE TABLE bd.cliente (
     nome varchar(100) NOT NULL,
     cpf varchar(14) NOT NULL,
     telefone varchar(20) NOT NULL,
-    endereco varchar(50) NOT NULL,
-    PRIMARY KEY(cpf)
+    endereco varchar(50) NOT NULL
 );
 
 CREATE TABLE bd.fornecedores (
     nome varchar(100) NOT NULL,
     cnpj varchar(30) NOT NULL,
     telefone varchar(20) NOT NULL,
-    endereco varchar(50) NOT NULL,
-    PRIMARY KEY (cnpj)
+    endereco varchar(50) NOT NULL
 );
 
 CREATE TABLE bd.setor (
     codigo varchar(30) NOT NULL,
     codigo_funcionario varchar(14) NOT NULL,
-    tipo varchar(30) NOT NULL,
-    FOREIGN KEY (codigo_funcionario) REFERENCES bd.gerente(codigo_func),
-    PRIMARY KEY (codigo)
+    tipo varchar(30) NOT NULL
 );
 
 CREATE TABLE bd.produto(
     nome varchar(100) NOT NULL,
     data_validade timestamp NOT NULL,
-    codigo varchar(30) NOT NULL,
-    PRIMARY KEY (codigo)
+    codigo varchar(30) NOT NULL
 );
 
 CREATE TABLE bd.venda (
@@ -56,11 +46,7 @@ CREATE TABLE bd.venda (
     data timestamp NOT NULL,
     codigo_cliente varchar(20) NOT NULL,
     codigo_funcionario varchar(20) NOT NULL,
-    codigo_produto varchar(30) NOT NULL,
-    FOREIGN KEY (codigo_cliente) REFERENCES bd.cliente(cpf),
-    FOREIGN KEY (codigo_funcionario) REFERENCES bd.vendedor(codigo_func),
-    FOREIGN KEY (codigo_produto) REFERENCES bd.produto(codigo),
-    PRIMARY KEY (codigo)
+    codigo_produto varchar(30) NOT NULL
 );
 
 CREATE TABLE bd.itempedido(
@@ -68,10 +54,7 @@ CREATE TABLE bd.itempedido(
     preco_unitario numeric(7,2) NOT NULL,
     quantidade integer NOT NULL,
     codigo_produto varchar(30) NOT NULL,
-    codigo_venda varchar(30) NOT NULL,
-    FOREIGN KEY (codigo_produto) REFERENCES bd.produto(codigo),
-    FOREIGN KEY (codigo_venda) REFERENCES bd.venda(codigo),
-    PRIMARY KEY (codigo)
+    codigo_venda varchar(30) NOT NULL
 );
 
 CREATE TABLE bd.itemfornecido(
@@ -80,40 +63,88 @@ CREATE TABLE bd.itemfornecido(
     quantidade integer NOT NULL,
     lote varchar(30) NOT NULL,
     codigo_produto varchar(30) NOT NULL,
-    codigo_fornecedor varchar(20) NOT NULL,
-    FOREIGN KEY (codigo_produto) REFERENCES bd.produto(codigo),
-    FOREIGN KEY (codigo_fornecedor) REFERENCES bd.fornecedores(cnpj),
-    PRIMARY KEY (id)
+    codigo_fornecedor varchar(20) NOT NULL
 );
 
 CREATE TABLE bd.estoque(
     id varchar(10) NOT NULL,
     quantidade integer NOT NULL DEFAULT '0',
-    codigo_produto varchar(30) NOT NULL,
-    FOREIGN KEY (codigo_produto) REFERENCES bd.produto(codigo),
-    PRIMARY KEY (id)
+    codigo_produto varchar(30) NOT NULL
 );
 
 CREATE TABLE bd.deposito(
     numero varchar(40) NOT NULL,
-    codigo_estoque varchar(40) NOT NULL,
-    FOREIGN KEY (codigo_estoque) REFERENCES bd.estoque(id),
-    PRIMARY KEY (numero)
+    codigo_estoque varchar(40) NOT NULL
 );
 
 CREATE TABLE bd.relatorio(
     codigo varchar(30) NOT NULL,
-    data timestamp NOT NULL,
-    PRIMARY KEY(codigo)
+    data timestamp NOT NULL
 );
 
 CREATE TABLE bd.relatoriovenda(
     codigo_venda varchar(30) NOT NULL,
-    codigo_relatorio varchar(30) NOT NULL,
-    FOREIGN KEY (codigo_venda) REFERENCES bd.venda (codigo),
-    FOREIGN KEY (codigo_relatorio) REFERENCES bd.relatorio (codigo)
+    codigo_relatorio varchar(30) NOT NULL
 );
 
 CREATE TABLE bd.notafiscal(
     id varchar (30) NOT NULL
 );
+
+-- -----------------------------------------------------------------------------------
+
+ALTER TABLE bd.funcionarios
+  ADD PRIMARY KEY (`cpf`);
+
+ALTER TABLE bd.gerente
+  ADD PRIMARY KEY (`codigo_func`),
+  ADD FOREIGN KEY (`codigo_func`) REFERENCES `funcionarios` (`cpf`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE bd.vendedor
+  ADD PRIMARY KEY (`codigo_func`),
+  ADD FOREIGN KEY (`codigo_func`) REFERENCES `funcionarios` (`cpf`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE bd.cliente
+  ADD PRIMARY KEY (`cpf`);
+
+ALTER TABLE bd.fornecedores
+  ADD PRIMARY KEY (`cnpj`);
+
+ALTER TABLE bd.setor
+  ADD PRIMARY KEY (`codigo`),
+  ADD FOREIGN KEY (`codigo_funcionario`) REFERENCES `gerente` (`codigo_func`);
+
+ALTER TABLE bd.produto
+  ADD PRIMARY KEY (`codigo`);
+
+ALTER TABLE bd.venda
+  ADD PRIMARY KEY (`codigo`),
+  ADD  FOREIGN KEY (`codigo_cliente`) REFERENCES `cliente` (`cpf`),
+  ADD  FOREIGN KEY (`codigo_funcionario`) REFERENCES `vendedor` (`codigo_func`),
+  ADD  FOREIGN KEY (`codigo_produto`) REFERENCES `produto` (`codigo`);
+
+
+ALTER TABLE bd.itempedido
+  ADD PRIMARY KEY (`codigo`),
+  ADD FOREIGN KEY (`codigo_produto`) REFERENCES `produto` (`codigo`),
+  ADD FOREIGN KEY (`codigo_venda`) REFERENCES `venda` (`codigo`);
+
+ALTER TABLE bd.itemfornecido
+  ADD PRIMARY KEY (`id`),
+  ADD FOREIGN KEY (`codigo_produto`) REFERENCES `produto` (`codigo`),
+  ADD FOREIGN KEY (`codigo_fornecedor`) REFERENCES `fornecedores` (`cnpj`);
+
+ALTER TABLE bd.estoque
+  ADD PRIMARY KEY (`id`),
+  ADD FOREIGN KEY (`codigo_produto`) REFERENCES `produto` (`codigo`);
+
+ALTER TABLE bd.deposito
+  ADD PRIMARY KEY (`numero`),
+  ADD FOREIGN KEY (`codigo_estoque`) REFERENCES `estoque` (`id`);
+
+ALTER TABLE bd.relatorio
+  ADD PRIMARY KEY (`codigo`);
+
+ALTER TABLE bd.relatoriovenda
+  ADD FOREIGN KEY (`codigo_venda`) REFERENCES `venda` (`codigo`),
+  ADD FOREIGN KEY (`codigo_relatorio`) REFERENCES `relatorio` (`codigo`);
