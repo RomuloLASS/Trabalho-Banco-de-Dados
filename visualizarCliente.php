@@ -23,7 +23,7 @@ include "header.php";
             fetch(`./deletarCliente.php?cpf=${cpf}`)
                 .then(window.location.reload())
                 .catch(console.error);
-                window.location.reload()
+                    window.location.reload()
         }
     </script>
     <div class="table-responsive">
@@ -48,7 +48,7 @@ include "header.php";
                             "</td><td>" . $linha["telefone"] .
                             "</td><td>" . $linha["endereco"] .
                             "</td><td>" .
-                           "<a href=\"./editarCliente.php?cpf=$linha[cpf]\"><i class=\"fas fa-pencil-alt\"></i></a>" .
+                           "<a href=\"./editarCliente.php?cpf=$linha[cpf]\"><i class=\"fas fa-pencil-alt\"></i></a> &nbsp" .
                             "<a href=\"javascript:deletar('$linha[cpf]')\"><i class=\"fas fa-trash\"></i></a>" .
                             "</td></tr>";
                     }

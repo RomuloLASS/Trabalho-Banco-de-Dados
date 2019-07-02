@@ -18,6 +18,12 @@
       <li class="nav-item">
         <a class="nav-link" href="visualizarCliente.php">Visualizar Cliente</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="cadastroFuncionario.php">Cadastro Funcionario</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="visualizarFuncionario.php">Visualizar Funcionario</a>
+      </li>
     </ul>
   </div>
   <!--Links do Menu -->
