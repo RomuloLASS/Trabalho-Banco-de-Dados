@@ -12,6 +12,9 @@
       <li class="nav-item">
         <a class="nav-link" href="produto.php">Produtos</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="cadastroCliente.php">Cadastro Cliente</a>
+      </li>
     </ul>
   </div>
   <!--Links do Menu -->
