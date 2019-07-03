@@ -94,57 +94,57 @@ CREATE TABLE bd.notafiscal(
 -- -----------------------------------------------------------------------------------
 
 ALTER TABLE bd.funcionarios
-  ADD PRIMARY KEY (`cpf`);
+  ADD PRIMARY KEY (cpf);
 
 ALTER TABLE bd.gerente
-  ADD PRIMARY KEY (`codigo_func`),
-  ADD FOREIGN KEY (`codigo_func`) REFERENCES `funcionarios` (`cpf`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD PRIMARY KEY (codigo_func),
+  ADD FOREIGN KEY (codigo_func) REFERENCES bd.funcionarios (cpf) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE bd.vendedor
-  ADD PRIMARY KEY (`codigo_func`),
-  ADD FOREIGN KEY (`codigo_func`) REFERENCES `funcionarios` (`cpf`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD PRIMARY KEY (codigo_func),
+  ADD FOREIGN KEY (codigo_func) REFERENCES bd.funcionarios (cpf) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE bd.cliente
-  ADD PRIMARY KEY (`cpf`);
+  ADD PRIMARY KEY (cpf);
 
 ALTER TABLE bd.fornecedores
-  ADD PRIMARY KEY (`cnpj`);
+  ADD PRIMARY KEY (cnpj);
 
 ALTER TABLE bd.setor
-  ADD PRIMARY KEY (`codigo`),
-  ADD FOREIGN KEY (`codigo_funcionario`) REFERENCES `gerente` (`codigo_func`);
+  ADD PRIMARY KEY (codigo),
+  ADD FOREIGN KEY (codigo_funcionario) REFERENCES bd.gerente (codigo_func);
 
 ALTER TABLE bd.produto
-  ADD PRIMARY KEY (`codigo`);
+  ADD PRIMARY KEY (codigo);
 
 ALTER TABLE bd.venda
-  ADD PRIMARY KEY (`codigo`),
-  ADD  FOREIGN KEY (`codigo_cliente`) REFERENCES `cliente` (`cpf`),
-  ADD  FOREIGN KEY (`codigo_funcionario`) REFERENCES `vendedor` (`codigo_func`),
-  ADD  FOREIGN KEY (`codigo_produto`) REFERENCES `produto` (`codigo`);
+  ADD PRIMARY KEY (codigo),
+  ADD  FOREIGN KEY (codigo_cliente) REFERENCES bd.cliente (cpf),
+  ADD  FOREIGN KEY (codigo_funcionario) REFERENCES bd.vendedor (codigo_func),
+  ADD  FOREIGN KEY (codigo_produto) REFERENCES bd.produto (codigo);
 
 
 ALTER TABLE bd.itempedido
-  ADD PRIMARY KEY (`codigo`),
-  ADD FOREIGN KEY (`codigo_produto`) REFERENCES `produto` (`codigo`),
-  ADD FOREIGN KEY (`codigo_venda`) REFERENCES `venda` (`codigo`);
+  ADD PRIMARY KEY (codigo),
+  ADD FOREIGN KEY (codigo_produto) REFERENCES bd.produto (codigo),
+  ADD FOREIGN KEY (codigo_venda) REFERENCES bd.venda (codigo);
 
 ALTER TABLE bd.itemfornecido
-  ADD PRIMARY KEY (`id`),
-  ADD FOREIGN KEY (`codigo_produto`) REFERENCES `produto` (`codigo`),
-  ADD FOREIGN KEY (`codigo_fornecedor`) REFERENCES `fornecedores` (`cnpj`);
+  ADD PRIMARY KEY (id),
+  ADD FOREIGN KEY (codigo_produto) REFERENCES bd.produto (codigo),
+  ADD FOREIGN KEY (codigo_fornecedor) REFERENCES bd.fornecedores (cnpj);
 
 ALTER TABLE bd.estoque
-  ADD PRIMARY KEY (`id`),
-  ADD FOREIGN KEY (`codigo_produto`) REFERENCES `produto` (`codigo`);
+  ADD PRIMARY KEY (id),
+  ADD FOREIGN KEY (codigo_produto) REFERENCES bd.produto (codigo);
 
 ALTER TABLE bd.deposito
-  ADD PRIMARY KEY (`numero`),
-  ADD FOREIGN KEY (`codigo_estoque`) REFERENCES `estoque` (`id`);
+  ADD PRIMARY KEY (numero),
+  ADD FOREIGN KEY (codigo_estoque) REFERENCES bd.estoque (id);
 
 ALTER TABLE bd.relatorio
-  ADD PRIMARY KEY (`codigo`);
+  ADD PRIMARY KEY (codigo);
 
 ALTER TABLE bd.relatoriovenda
-  ADD FOREIGN KEY (`codigo_venda`) REFERENCES `venda` (`codigo`),
-  ADD FOREIGN KEY (`codigo_relatorio`) REFERENCES `relatorio` (`codigo`);
+  ADD FOREIGN KEY (codigo_venda) REFERENCES bd.venda (codigo),
+  ADD FOREIGN KEY (codigo_relatorio) REFERENCES bd.relatorio (codigo);
