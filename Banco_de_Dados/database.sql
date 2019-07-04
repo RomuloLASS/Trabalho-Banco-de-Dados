@@ -45,8 +45,7 @@ CREATE TABLE bd.venda (
     total_ganho numeric(7,2) NOT NULL,
     data timestamp NOT NULL,
     codigo_cliente varchar(20) NOT NULL,
-    codigo_funcionario varchar(20) NOT NULL,
-    codigo_produto varchar(30) NOT NULL
+    codigo_funcionario varchar(20) NOT NULL
 );
 
 CREATE TABLE bd.itempedido(
@@ -88,7 +87,8 @@ CREATE TABLE bd.relatoriovenda(
 );
 
 CREATE TABLE bd.notafiscal(
-    id varchar (30) NOT NULL
+    id varchar (30) NOT NULL,
+    codigo_venda varchar(30) NOT NULL
 );
 
 -- -----------------------------------------------------------------------------------
@@ -120,8 +120,7 @@ ALTER TABLE bd.produto
 ALTER TABLE bd.venda
   ADD PRIMARY KEY (codigo),
   ADD  FOREIGN KEY (codigo_cliente) REFERENCES bd.cliente (cpf),
-  ADD  FOREIGN KEY (codigo_funcionario) REFERENCES bd.vendedor (codigo_func),
-  ADD  FOREIGN KEY (codigo_produto) REFERENCES bd.produto (codigo);
+  ADD  FOREIGN KEY (codigo_funcionario) REFERENCES bd.vendedor (codigo_func);
 
 
 ALTER TABLE bd.itempedido
@@ -148,3 +147,6 @@ ALTER TABLE bd.relatorio
 ALTER TABLE bd.relatoriovenda
   ADD FOREIGN KEY (codigo_venda) REFERENCES bd.venda (codigo),
   ADD FOREIGN KEY (codigo_relatorio) REFERENCES bd.relatorio (codigo);
+
+ALTER TABLE bd.notafiscal
+  ADD FOREIGN KEY (codigo_venda) REFERENCES bd.venda(codigo)
